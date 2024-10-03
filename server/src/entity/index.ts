@@ -9,3 +9,8 @@ export interface Isurvey {
     address: string,
     message: string
 }
+
+export interface IAdmin {
+    email: string,
+    password: string
+}
