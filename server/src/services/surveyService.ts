@@ -14,4 +14,9 @@ export class SurveyService {
         }
         return this.surveyRepository.create(data)
     }
+
+    async getAllSurvey(): Promise<Isurvey[]> {
+        let surveys = await this.surveyRepository.findAll()
+        return surveys
+    }
 }

@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import SurveyForm from './pages/SurveyForm'
-import Login from './components/admin/Login'
+import Login from './pages/Admin/Login'
+import Home from './pages/Admin/Home'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
         <SurveyForm />
       } />
       <Route path='/login' element={<Login />} />
+      <Route path='/admin' element={<Home />} />
     </Routes>
   )
 }

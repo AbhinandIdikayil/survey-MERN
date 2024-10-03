@@ -19,4 +19,13 @@ export class SurveyController {
             next(error)
         }
     }
+
+    async getAllSurvey(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            let surveys = await this.surveyService.getAllSurvey()
+            res.status(HttpStatusCode.OK).json({ message: 'success', data: surveys })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
