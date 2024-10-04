@@ -1,10 +1,17 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { api } from "@/config/axiosInstance"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { AxiosError } from "axios"
+import { Dispatch, SetStateAction } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 import { z } from "zod"
+type SurveyFormSectionProps = {
+    setSubmited: Dispatch<SetStateAction<boolean>>;
+}
 
-function SurveyFormSection() {
+function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
     const FormSchema = z.object({
         username: z.string({ required_error: 'Name is required' }).nonempty({ message: 'Name is required' }),
         email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Invaild email address' }),
@@ -30,8 +37,24 @@ function SurveyFormSection() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
+    async function onSubmit(formData: z.infer<typeof FormSchema>) {
+        console.log(formData)
+
+        try {
+            const { data } = await api.post('/create', { data: formData })
+            console.log(data)
+            if (data?.success) {
+                setSubmited(true)
+            }
+        } catch (error) {
+            console.log(error)
+            if (error instanceof AxiosError) {
+                if (error && error.response && error?.response?.data && error.response.data?.message) {
+                    toast.error(error.response.data?.message, { position: 'top-center' })
+                    return
+                }
+            }
+        }
     }
 
     return (

@@ -1,5 +1,6 @@
 import { Isurvey } from "../entity";
 import { SurveyRepository } from "../repositories/surveyRepo";
+import ErrorResponse from "../utils/errorResponse";
 
 export class SurveyService {
     private surveyRepository: SurveyRepository;
@@ -10,7 +11,7 @@ export class SurveyService {
     async createSurvey(data: Isurvey): Promise<Isurvey> {
         let existingEmail = await this.surveyRepository.findByEmail(data.email)
         if (existingEmail) {
-            throw new Error('Email already exists')
+            throw ErrorResponse.badRequest('Email already exists')
         }
         return this.surveyRepository.create(data)
     }

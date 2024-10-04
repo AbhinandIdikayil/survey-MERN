@@ -9,7 +9,7 @@ function Home() {
                     <span className="text-black font-semibold bg-gray-300 px-4 py-1 rounded tracking-tighter shadow-sm shadow-gray-400" >logout</span>
                 </div>
             </nav>
-            <div className="pt-14 flex flex-wrap justify-start px-20">
+            <div className="pt-14 justify-start px-20 max-md:px-0 max-md:justify-center cards bg-[#34a265]">
                 <SurveyCard />
                 <SurveyCard />
                 <SurveyCard />

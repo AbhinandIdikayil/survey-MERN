@@ -1,7 +1,7 @@
 import { Gender } from "../utils/enum";
 
 export interface Isurvey {
-    name: string,
+    username: string,
     gender: Gender,
     nationality: string,
     email: string,

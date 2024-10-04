@@ -3,7 +3,7 @@ import { Isurvey } from "../entity";
 
 
 const surveySchema = new Schema<Isurvey>({
-    name: {
+    username: {
         type: String,
         required: true
     },
