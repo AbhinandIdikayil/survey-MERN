@@ -29,11 +29,13 @@ export class AdminController {
 
     async logout(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log('hii')
             res.cookie('access_token', '', {
                 maxAge: 1,
                 httpOnly: true,
                 sameSite: 'none', secure: true
             })
+            res.status(200).json({ message: "logout successfull", success: true })
         } catch (error) {
             next(error)
         }

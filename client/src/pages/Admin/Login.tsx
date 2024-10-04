@@ -6,14 +6,23 @@ import side from '/polygon-scatter-haikei.svg'
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
-import { api } from "@/config/axiosInstance"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { AxiosError } from "axios"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "@/redux/store"
+import { adminLogin } from "@/redux/action/adminAction"
 
 function Login() {
     const navigate = useNavigate()
-    const [apiError, setApiError] = useState()
+    const [apiError, setApiError] = useState<string>()
+    const dispatch: AppDispatch = useDispatch()
+    const state = useSelector((state: RootState) => state.admin)
+
+    useEffect(() => {
+        if (state.admin) {
+            return navigate('/admin')
+        }
+    }, [])
     const FormSchema = z.object({
         email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Invaild email address' }),
         password: z.string().nonempty({ message: 'Password is required' })
@@ -30,19 +39,21 @@ function Login() {
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
         try {
             console.log(formData)
-            const { data } = await api.post('/login', { data: formData })
+            let data = await dispatch(adminLogin(formData)).unwrap()
             if (data.success) {
                 navigate('/admin')
             }
-        } catch (error) {
-            console.log(error)
-            if (error instanceof AxiosError) {
-                if (error && error.response && error?.response?.data && error.response.data?.message) {
-                    setApiError(error.response.data?.message)
-                }
+        } catch (error: any) {
+            if (error && error.message) {
+                setApiError(error.message);
             }
+            // if (error && error?.message) {
+            //     setApiError(error?.message)
+            // }
         }
     }
+
+    
 
     return (
         <div className="w-full h-screen lg:grid lg:h-screen lg:grid-cols-2 xl:h-screen">
@@ -66,7 +77,7 @@ function Login() {
                                                 <Label htmlFor="email">Email</Label>
                                                 {
                                                     apiError && (
-                                                        <Label htmlFor="error" className="text-red-600"> { "("+ apiError + ')'} </Label>
+                                                        <Label htmlFor="error" className="text-red-600"> {"(" + apiError + ')'} </Label>
                                                     )
                                                 }
                                                 <Input
