@@ -15,7 +15,7 @@ app.use('/api', routes)
 app.use(errorHandler)
 
 
-app.listen(PORT, async () => {
+app.listen(Number(PORT), async () => {
     await connectDB()
     console.log('server is running on port:', PORT)
 })
