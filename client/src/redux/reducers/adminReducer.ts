@@ -1,10 +1,12 @@
 import { adminReducerType } from "@/types";
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
-import { adminLogin, adminLogout } from "../action/adminAction";
+import { adminLogin, adminLogout, getAllSurvey } from "../action/adminAction";
+import { handleAuthError } from "./authError";
 
 const initialState: adminReducerType = {
     loading: false,
     admin: false,
+    surveys: [],
     err: null,
 }
 
@@ -47,6 +49,20 @@ const adminSlice = createSlice({
                 state.loading = false
                 state.admin = true
                 state.err = payload
+            })
+            .addCase(getAllSurvey.pending, (state) => {
+                state.loading = true
+                state.err = null
+            })
+            .addCase(getAllSurvey.fulfilled, (state, { payload }) => {
+                state.loading = false
+                state.surveys = payload
+                state.err = null
+            })
+            .addCase(getAllSurvey.rejected, (state, { payload }) => {
+                state.loading = false
+                state.surveys = []
+                handleAuthError(state, payload)
             })
     }
 })

@@ -22,7 +22,7 @@ export const verifyToken = (
     }
 
     try {
-        const decoded = jwt.verify(token, String(process.env.ACCESS_TOKEN_SECRET)) as CustomJwtPayload;
+        const decoded = jwt.verify(token, 'ACCESS') as CustomJwtPayload;
 
         const { _id, email } = decoded;
         (req as ModifiedRequest).user = { _id, email };
