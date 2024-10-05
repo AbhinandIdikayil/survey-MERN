@@ -4,6 +4,7 @@ config()
 export const PORT = process.env.PORT as string ?? 3000
 export const MONGO_URI = process.env.MONGO_URI as string
 export const ClIENT = process.env.CLIENT as string
+console.log(PORT,MONGO_URI,ClIENT)
 
 export const corsOption = {
     origin: ClIENT, // Allow requests from this origin
