@@ -11,12 +11,14 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/redux/store"
 import { adminLogin } from "@/redux/action/adminAction"
+import { LoaderCircle } from "lucide-react"
 
 function Login() {
     const navigate = useNavigate()
     const [apiError, setApiError] = useState<string>()
     const dispatch: AppDispatch = useDispatch()
     const state = useSelector((state: RootState) => state.admin)
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         if (state.admin) {
@@ -37,8 +39,8 @@ function Login() {
     })
 
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
+        setLoading(true)
         try {
-            console.log(formData)
             let data = await dispatch(adminLogin(formData)).unwrap()
             if (data.success) {
                 navigate('/admin')
@@ -47,13 +49,11 @@ function Login() {
             if (error && error.message) {
                 setApiError(error.message);
             }
-            // if (error && error?.message) {
-            //     setApiError(error?.message)
-            // }
+        } finally {
+            setLoading(false)
         }
     }
 
-    
 
     return (
         <div className="w-full h-screen lg:grid lg:h-screen lg:grid-cols-2 xl:h-screen">
@@ -110,9 +110,17 @@ function Login() {
                                         )}
                                     />
                                 </div>
-                                <Button type="submit" className="w-full  max-md:px-3 mt-3">
-                                    Login
-                                </Button>
+                                {
+                                    loading ? (
+                                        <Button type="button" className="w-full  max-md:px-3 mt-3">
+                                            <LoaderCircle className="animate-spin" />
+                                        </Button>
+                                    ) : (
+                                        <Button type="submit" className="w-full  max-md:px-3 mt-3">
+                                            Login
+                                        </Button>
+                                    )
+                                }
                             </form>
                         </Form>
                     </div>
@@ -126,7 +134,7 @@ function Login() {
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
             </div>
-        </div>
+        </div >
     )
 }
 

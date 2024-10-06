@@ -3,7 +3,8 @@ import { Input } from "@/components/ui/input"
 import { api } from "@/config/axiosInstance"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AxiosError } from "axios"
-import { Dispatch, SetStateAction } from "react"
+import { LoaderCircle } from "lucide-react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { z } from "zod"
@@ -12,6 +13,7 @@ type SurveyFormSectionProps = {
 }
 
 function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
+    const [loading, setLoading] = useState<boolean>(false)
     const FormSchema = z.object({
         username: z.string({ required_error: 'Name is required' }).nonempty({ message: 'Name is required' }),
         email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Invaild email address' }),
@@ -38,8 +40,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
     })
 
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
-        console.log(formData)
-
+        setLoading(true)
         try {
             const { data } = await api.post('/create', { data: formData })
             console.log(data)
@@ -54,6 +55,8 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                     return
                 }
             }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -186,11 +189,22 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                             </FormItem>
                         )}
                     />
-                    <button type="submit" className="bg-[#34a265] px-6 py-1.5 rounded-md font-medium text-white capitalize tracking-tighter shadow-sm shadow-gray-600 border border-solid border-gray-400 float-end mt-1">Submit form</button>
+                    {
+                        loading ? (
+                            <>
+                                <button style={{ paddingInline: '54.5px' }} type="button" className="bg-[#34a265] flex gap-2 py-1.5 rounded-md font-medium text-white capitalize tracking-tighter shadow-sm shadow-gray-600 border border-solid border-gray-400 float-end mt-1">
+
+                                    <LoaderCircle className="animate-spin" />
+                                </button>
+                            </>
+                        ) : (
+                            <button type="submit" className="bg-[#34a265] px-6 py-1.5 rounded-md font-medium text-white capitalize tracking-tighter shadow-sm shadow-gray-600 border border-solid border-gray-400 float-end mt-1">Submit form</button>
+                        )
+                    }
                 </div>
             </form>
             <hr style={{ height: '2px' }} className="bg-[#34a265] mt-2" />
-        </Form>
+        </Form >
     )
 }
 

@@ -17,3 +17,8 @@ export type survey = {
     message: string,
     createdAt: string,
 }
+
+export type logoutModalAndLoading = {
+    modal: boolean,
+    loading: boolean
+}
