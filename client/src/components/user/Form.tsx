@@ -17,7 +17,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
     const FormSchema = z.object({
         username: z.string({ required_error: 'Name is required' }).nonempty({ message: 'Name is required' }),
         email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Invaild email address' }),
-        phone: z.string().nonempty({ message: 'Phone is required' }).min(10, { message: "min 10 length" }),
+        phone: z.string().nonempty({ message: 'Phone is required' }).min(10, { message: "min 10 length" }).regex(/^\d{10}$/,{message:'invalid number'}),
         nationality: z.string().nonempty({ message: 'Nationality is required' }).min(1, { message: 'Nationality is required' }),
         address: z.string().nonempty({ message: 'Address is required' }),
         message: z.string().nonempty({ message: 'Message is required' }),
@@ -126,7 +126,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                                 <FormLabel className="capitalize font-semibold text-slate-700">Your Address</FormLabel>
                                 <FormMessage className="p-0 m-0" style={{ padding: '0px 0px', margin: '0px 0px' }} />
                                 <FormControl style={{ margin: '0px 0px' }}>
-                                    <Input placeholder="+91" {...field} />
+                                    <Input placeholder="Your address" {...field} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -184,7 +184,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                                 <FormLabel className="capitalize font-semibold text-slate-700">Your message</FormLabel>
                                 <FormMessage className="p-0 m-0" style={{ padding: '0px 0px', margin: '0px 0px' }} />
                                 <FormControl style={{ margin: '0px 0px' }}>
-                                    <textarea placeholder="+91" {...field} className="shadow-sm text-base w-full border border-solid rounded  px-1 focus:border-black focus:ring-0.5 focus:ring-black  focus:outline-none tracking-tight" style={{ height: '98px', fontWeight: '400' }} />
+                                    <textarea placeholder="Your message" {...field} className="shadow-sm text-base w-full border border-solid rounded  px-1 focus:border-black focus:ring-0.5 focus:ring-black  focus:outline-none tracking-tight" style={{ height: '98px', fontWeight: '400' }} />
                                 </FormControl>
                             </FormItem>
                         )}

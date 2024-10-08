@@ -54,3 +54,11 @@ Start the server
 ```bash
   npm run dev
 ```
+
+
+## Tech Stack
+
+**Client:** React, Redux, TailwindCSS, Typescript
+
+**Server:** Node, Express, Typescript
+
