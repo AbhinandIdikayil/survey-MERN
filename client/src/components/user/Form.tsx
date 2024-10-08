@@ -3,21 +3,30 @@ import { Input } from "@/components/ui/input"
 import { api } from "@/config/axiosInstance"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AxiosError } from "axios"
-import { LoaderCircle } from "lucide-react"
+import { ChevronDown, LoaderCircle } from "lucide-react"
 import { Dispatch, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { z } from "zod"
+import DropDown from "../DropDown"
+import countiresJSON from '../../data/countries.json'
 type SurveyFormSectionProps = {
     setSubmited: Dispatch<SetStateAction<boolean>>;
 }
+type Action = {
+    loading: boolean,
+    dropDown: boolean
+}
 
 function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
-    const [loading, setLoading] = useState<boolean>(false)
+    const [action, setAction] = useState<Action>({
+        loading: false,
+        dropDown: false
+    })
     const FormSchema = z.object({
         username: z.string({ required_error: 'Name is required' }).nonempty({ message: 'Name is required' }),
         email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Invaild email address' }),
-        phone: z.string().nonempty({ message: 'Phone is required' }).min(10, { message: "min 10 length" }).regex(/^\d{10}$/,{message:'invalid number'}),
+        phone: z.string().nonempty({ message: 'Phone is required' }).min(10, { message: "min 10 length" }).regex(/^\d{10}$/, { message: 'invalid number' }),
         nationality: z.string().nonempty({ message: 'Nationality is required' }).min(1, { message: 'Nationality is required' }),
         address: z.string().nonempty({ message: 'Address is required' }),
         message: z.string().nonempty({ message: 'Message is required' }),
@@ -40,7 +49,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
     })
 
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
-        setLoading(true)
+        setAction((prev: Action) => ({ ...prev, loading: true }))
         try {
             const { data } = await api.post('/create', { data: formData })
             console.log(data)
@@ -56,13 +65,13 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                 }
             }
         } finally {
-            setLoading(false)
+            setAction((prev: Action) => ({ ...prev, loading: false }))
         }
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex max-md:flex-col  md:justify-between gap-3 space-y-2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex max-md:flex-col  md:justify-between gap-3 max-md:gap-0 space-y-2">
                 <div className="w-1/2 max-md:w-full">
                     <FormField
                         control={form.control}
@@ -94,10 +103,10 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                         control={form.control}
                         name="phone"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="pb-0  m-0">
                                 <FormLabel className="capitalize font-semibold text-slate-700">Your Phone Number</FormLabel>
                                 <FormMessage className="p-0 m-0" style={{ padding: '0px 0px', margin: '0px 0px' }} />
-                                <FormControl style={{ margin: '2px 0px' }}>
+                                <FormControl style={{ margin: '0px 0px' }}>
                                     <Input placeholder="+91" {...field} />
                                 </FormControl>
                             </FormItem>
@@ -107,11 +116,21 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                         control={form.control}
                         name="nationality"
                         render={({ field }) => (
-                            <FormItem className="pb-3 m-0" >
+                            <FormItem className="m-0 relative pb-0" style={{ zIndex: 9 }}>
                                 <FormLabel className="capitalize font-semibold text-slate-700">Your nationality</FormLabel>
                                 <FormMessage className="p-0 m-0" style={{ padding: '0px 0px', margin: '0px 0px' }} />
-                                <FormControl style={{ margin: '0px 0px' }}>
-                                    <Input placeholder="India" {...field} />
+                                <FormControl style={{ margin: '1px 0px', zIndex: 99 }} >
+                                    <div style={{ zIndex: 99 }} onClick={() => setAction((prev) => ({ ...prev, dropDown: !prev.dropDown }))} className="z-50 w-full h-9 px-3 rounded-md  shadow-sm border" >
+                                        <div className="flex justify-between items-center">
+                                            <h1> {field.value || ''} </h1>
+                                            {
+                                                action.dropDown && (
+                                                    <DropDown countiresJSON={countiresJSON} setValue={form.setValue} />
+                                                )
+                                            }
+                                            <ChevronDown style={{ zIndex: 90 }} className={`float-end mt-1.5 text-gray-600 ${action.dropDown ? 'icon' : ''} `} />
+                                        </div>
+                                    </div>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -122,7 +141,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                         control={form.control}
                         name="address"
                         render={({ field }) => (
-                            <FormItem className="p-0" >
+                            <FormItem className="p-0 m-0" style={{ padding: "0px 0px", marginTop: '0px' }}>
                                 <FormLabel className="capitalize font-semibold text-slate-700">Your Address</FormLabel>
                                 <FormMessage className="p-0 m-0" style={{ padding: '0px 0px', margin: '0px 0px' }} />
                                 <FormControl style={{ margin: '0px 0px' }}>
@@ -180,7 +199,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                         control={form.control}
                         name="message"
                         render={({ field }) => (
-                            <FormItem className="m-0" style={{ padding: "0px 0px", marginTop: '6px' }}>
+                            <FormItem className="m-0" style={{ padding: "0px 0px", marginTop: '4px' }}>
                                 <FormLabel className="capitalize font-semibold text-slate-700">Your message</FormLabel>
                                 <FormMessage className="p-0 m-0" style={{ padding: '0px 0px', margin: '0px 0px' }} />
                                 <FormControl style={{ margin: '0px 0px' }}>
@@ -190,7 +209,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
                         )}
                     />
                     {
-                        loading ? (
+                        action.loading ? (
                             <>
                                 <button style={{ paddingInline: '54.5px' }} type="button" className="bg-[#34a265] flex gap-2 py-1.5 rounded-md font-medium text-white capitalize tracking-tighter shadow-sm shadow-gray-600 border border-solid border-gray-400 float-end mt-1">
 

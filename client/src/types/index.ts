@@ -22,3 +22,12 @@ export type logoutModalAndLoading = {
     modal: boolean,
     loading: boolean
 }
+
+export type Country = {
+    flags: {
+        svg:string,
+    }
+    name: {
+        common: string
+    },
+}
