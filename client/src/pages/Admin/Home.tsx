@@ -51,7 +51,7 @@ function Home() {
         fetchData()
     }, [])
     return (
-        <div className="w-full h-full relative">
+        <div className="w-full h-screen relative">
             {
                 modalAndLoading.modal && (
                     <LogoutConfirmModal handleLogout={handleLogout} setModalAndLoading={setModalAndLoading} />
@@ -73,9 +73,8 @@ function Home() {
                     </span>
                 </div>
             </nav>
-            <div className=" w-full px-10 max-md:px-3 pt-5 bg-[#34a265] ">
-
-                <Card x-chunk="A list of products in a table with actions. Each row has an image, name, status, price, total sales, created at and actions.">
+            <div className=" w-full h-full px-10 max-md:px-3 pt-5 bg-[#34a265] ">
+                <Card className="h-" x-chunk="A list of products in a table with actions. Each row has an image, name, status, price, total sales, created at and actions.">
                     <CardHeader className='max-md:px-4 max-md:pt-4 pb-1 '>
                         <CardTitle>Surveys</CardTitle>
                         <CardDescription>
@@ -114,7 +113,7 @@ function Home() {
                         </Table>
                     </CardContent>
                 </Card>
-                        {/* <Tables setModalData={setModalData} data={data} /> */}
+                {/* <Tables setModalData={setModalData} data={data} /> */}
 
             </div>
             {/* <div className="pt-14 justify-start px-20 max-md:px-0 max-md:justify-center cards bg-[#34a265]">

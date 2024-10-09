@@ -15,7 +15,7 @@ createRoot(document.getElementById('root')!).render(
       <PersistGate loading={null} persistor={persistor}>
         <SubmitedContextProvider>
           <ToastContainer />
-          <main className='bg-[#34a265] h-screen  max-md:h-full w-full'>
+          <main className='bg-[#34a265] h-screen max-md:h-full  w-full'>
             <App />
           </main>
         </SubmitedContextProvider>
