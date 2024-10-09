@@ -57,9 +57,6 @@ function SurveyModal({ data, onClose }: { data: survey, onClose: Dispatch<SetSta
                             <span className="text-muted-foreground">Message</span>
                             <div className="modal-message whitespace-normal break-words bg-white w-full rounded px-1 py-1 h-36 max-md:h-28 overflow-y-scroll">
                                 {data?.message}
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit nobis eius doloremque iusto labore saepe assumenda, adipisci voluptatem ipsam. At hic exercitationem dolore provident nobis dolorem reprehenderit qui assumenda quae.
-                                Necessitatibus tempora eveniet exercitationem dicta, debitis qui nulla. Ad corporis dolor laboriosam consequuntur voluptatum distinctio! Quam dolorum quia vero facilis. Architecto tempora ab doloribus accusamus corporis inventore voluptatem tempore laboriosam.
-                                Totam ullam esse doloribus cum nihil qui repudiandae, quos libero illum cumque laudantium dicta voluptatem inventore officiis ad. In eveniet odio quos facilis ducimus magnam, illo ab veniam delectus officia!
                             </div>
                         </li>
                     </ul>
