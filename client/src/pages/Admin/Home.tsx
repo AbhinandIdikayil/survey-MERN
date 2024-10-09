@@ -1,14 +1,14 @@
 import LogoutConfirmModal from "@/components/admin/LogoutConfirmModal"
-import SurveyCard from "@/components/admin/SurveyCard"
+// import SurveyCard from "@/components/admin/SurveyCard"
 import SurveyModal from "@/components/admin/SurveyModal"
 import TableList from "@/components/admin/TableList"
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { adminLogout, getAllSurvey } from "@/redux/action/adminAction"
 import { AppDispatch, RootState } from "@/redux/store"
 import { logoutModalAndLoading, survey } from "@/types"
-import { Eye } from "lucide-react"
+// import { Eye } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
