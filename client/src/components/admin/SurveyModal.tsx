@@ -14,7 +14,7 @@ function SurveyModal({ data, onClose }: { data: survey, onClose: Dispatch<SetSta
         }, 500); // Match this duration to the fade-out animation duration
     }
     return (
-        <div ref={ref} className={`fixed top-1/2 max-sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px]  h-[450px] max-md:h-[400px] max-md:w-5/6 bg-gray-100 rounded-lg shadow-lg px-3 pt-2 ${isClosing ? 'close' : 'modal'}`}>
+        <div ref={ref} style={{zIndex:99}} className={`fixed top-1/2 max-sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px]  h-[450px] max-md:h-[400px] max-md:w-5/6 bg-gray-100 rounded-lg shadow-md px-3 pt-2 border border-solid ${isClosing ? 'close' : 'modal'}`}>
             <div className="flex justify-between pb-2 capitalize h-[30px]">
                 <h1 className="font-semibold tracking-tight text-gray-800">Survey details</h1>
                 <CircleX onClick={handleClose} className=" text-slate-900" />

@@ -8,7 +8,7 @@ export class SurveyRepository {
         return survey ? true : false
     }
     async findAll(): Promise<Isurvey[]> {
-        return surveyModel.find().exec()
+        return surveyModel.find().sort({createdAt:-1}).exec()
     }
     async create(data: Isurvey): Promise<Isurvey> {
         let survey = new surveyModel(data)

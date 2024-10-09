@@ -1,9 +1,14 @@
 import LogoutConfirmModal from "@/components/admin/LogoutConfirmModal"
 import SurveyCard from "@/components/admin/SurveyCard"
 import SurveyModal from "@/components/admin/SurveyModal"
+import TableList from "@/components/admin/TableList"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { adminLogout, getAllSurvey } from "@/redux/action/adminAction"
 import { AppDispatch, RootState } from "@/redux/store"
 import { logoutModalAndLoading, survey } from "@/types"
+import { Eye } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -49,10 +54,10 @@ function Home() {
         <div className="w-full h-full relative">
             {
                 modalAndLoading.modal && (
-                    <LogoutConfirmModal handleLogout={handleLogout} setModalAndLoading={setModalAndLoading}  />
+                    <LogoutConfirmModal handleLogout={handleLogout} setModalAndLoading={setModalAndLoading} />
                 )
             }
-            {
+            { //! USER TO SHOW THE SURVERY MODAL
                 modalData && (
                     <SurveyModal data={modalData} onClose={setModalData} />
                 )
@@ -68,14 +73,58 @@ function Home() {
                     </span>
                 </div>
             </nav>
-            <div className="pt-14 justify-start px-20 max-md:px-0 max-md:justify-center cards bg-[#34a265]">
+            <div className=" w-full px-10 max-md:px-3 pt-5 bg-[#34a265] ">
+
+                <Card x-chunk="A list of products in a table with actions. Each row has an image, name, status, price, total sales, created at and actions.">
+                    <CardHeader className='max-md:px-4 max-md:pt-4 pb-1 '>
+                        <CardTitle>Surveys</CardTitle>
+                        <CardDescription>
+                            Check users surveys
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className='max-md:px-4 pt-0 
+                    '>
+                        <Table className="pt-0">
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead className="hidden md:table-cell">
+                                        Nationality
+                                    </TableHead>
+                                    <TableHead className="hidden md:table-cell">
+                                        Gender
+                                    </TableHead>
+                                    <TableHead className="hidden md:table-cell">
+                                        Created at
+                                    </TableHead>
+                                    <TableHead>
+                                        <span className="sr-only">Actions</span>
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {
+                                    state.surveys?.length &&
+                                    state.surveys?.map((data: survey) => (
+                                        <TableList data={data} setModalData={setModalData} key={data?.email} />
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+                        {/* <Tables setModalData={setModalData} data={data} /> */}
+
+            </div>
+            {/* <div className="pt-14 justify-start px-20 max-md:px-0 max-md:justify-center cards bg-[#34a265]">
                 {
                     state.surveys?.length &&
                     state.surveys?.map((data: survey) => (
                         <SurveyCard setModalData={setModalData} data={data} key={data?.email} />
                     ))
                 }
-            </div>
+            </div> */}
         </div>
     )
 }

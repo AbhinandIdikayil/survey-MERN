@@ -5,7 +5,8 @@ import { survey } from "@/types"
 import { Eye } from "lucide-react"
 import { Dispatch, SetStateAction } from "react"
 
-type SurveyCardSectionProps = {
+
+export type SurveyCardSectionProps = {
     data: survey,
     setModalData: Dispatch<SetStateAction<survey | null>>;
 }
