@@ -4,25 +4,27 @@ import { api } from "@/config/axiosInstance"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AxiosError } from "axios"
 import { ChevronDown, LoaderCircle } from "lucide-react"
-import { Dispatch, SetStateAction, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { z } from "zod"
 import DropDown from "../DropDown"
 import countiresJSON from '../../data/countries.json'
-type SurveyFormSectionProps = {
-    setSubmited: Dispatch<SetStateAction<boolean>>;
-}
+import { useSubmitedContext } from "@/context/Submited"
+import { useNavigate } from "react-router-dom"
+
 type Action = {
     loading: boolean,
     dropDown: boolean
 }
 
-function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
+function SurveyFormSection() {
     const [action, setAction] = useState<Action>({
         loading: false,
         dropDown: false
     })
+    const navigate = useNavigate()
+    const { setSubmited } = useSubmitedContext()
     const FormSchema = z.object({
         username: z.string({ required_error: 'Name is required' }).nonempty({ message: 'Name is required' }),
         email: z.string().nonempty({ message: 'Email is required' }).email({ message: 'Invaild email address' }),
@@ -55,6 +57,7 @@ function SurveyFormSection({ setSubmited }: SurveyFormSectionProps) {
             console.log(data)
             if (data?.success) {
                 setSubmited(true)
+                return navigate('/success')
             }
         } catch (error) {
             console.log(error)

@@ -5,6 +5,7 @@ import Login from './pages/Admin/Login'
 import Home from './pages/Admin/Home'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import LoginProtectedRoute from './components/admin/LoginProtectedRoute'
+import SuccessPage from './pages/user/SuccessPage'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Route path='/' element={
         <SurveyForm />
       } />
+      <Route path='/success' element={<SuccessPage />} />
       <Route path='/login' element={
         <LoginProtectedRoute>
           <Login />
