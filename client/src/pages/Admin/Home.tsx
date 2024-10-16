@@ -5,9 +5,10 @@ import TableList from "@/components/admin/TableList"
 // import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { api } from "@/config/axiosInstance"
 import { adminLogout, getAllSurvey } from "@/redux/action/adminAction"
 import { AppDispatch, RootState } from "@/redux/store"
-import { logoutModalAndLoading, survey } from "@/types"
+import { logoutModalAndLoading, survey, ISurveyByGender } from "@/types"
 // import { Eye } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -19,9 +20,14 @@ function Home() {
     const navigate = useNavigate()
     const state = useSelector((state: RootState) => state.admin)
     const [modalData, setModalData] = useState<survey | null>(null)
+    const [countByGender, setCountByGender] = useState<ISurveyByGender>({
+        Men: 0,
+        Women: 0,
+        Others: 0
+    })
     const [modalAndLoading, setModalAndLoading] = useState<logoutModalAndLoading>({
         modal: false,
-        loading: false
+        loading: true
     })
 
     async function handleLogout(): Promise<void> {
@@ -44,10 +50,29 @@ function Home() {
             console.log(error)
         }
     }
+    async function fetchGenders() {
+        setModalAndLoading({ loading: true, modal: false })
+        try {
+            let { data } = await api.get('/gender')
+            if (data?.success) {
+                setCountByGender({
+                    Men: data?.data?.[0]?.count ?? 0,
+                    Women: data?.data?.[1]?.count || 0,
+                    Others: data?.data?.[2]?.count || 0,
+                })
+            }
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setModalAndLoading({ loading: false, modal: false })
+        }
+    }
     function confirmationModal() {
         setModalAndLoading({ modal: true, loading: false })
     }
     useEffect(() => {
+        fetchGenders()
         fetchData()
     }, [])
     return (
@@ -76,7 +101,24 @@ function Home() {
             <div className=" w-full h-full px-10 max-md:px-3 pt-5 bg-[#34a265] ">
                 <Card className="h-" x-chunk="A list of products in a table with actions. Each row has an image, name, status, price, total sales, created at and actions.">
                     <CardHeader className='max-md:px-4 max-md:pt-4 pb-1 '>
-                        <CardTitle>Surveys</CardTitle>
+                        <CardTitle className="flex justify-between">
+                            <div>
+                                Surveys
+                            </div>
+
+                            <div >
+                                <div className={`${modalAndLoading?.loading ? 'skeleton' : ''}`}>
+
+                                    {countByGender?.Men}: Men
+                                </div>
+                                <div className={`${modalAndLoading?.loading ? 'skeleton' : ''}`}>
+                                    {countByGender?.Women}: Women
+                                </div>
+                                <div className={`${modalAndLoading?.loading ? 'skeleton' : ''}`}>
+                                    {countByGender?.Others}: Others
+                                </div>
+                            </div>
+                        </CardTitle>
                         <CardDescription>
                             Check users surveys
                         </CardDescription>

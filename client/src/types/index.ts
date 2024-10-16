@@ -1,17 +1,17 @@
 
 
 export type adminReducerType = {
-    loading:boolean,
-    admin:boolean,
+    loading: boolean,
+    admin: boolean,
     surveys: survey[]
     err: any
 }
 
 export type survey = {
-    username:string,
+    username: string,
     email: string,
     phone: string
-    gender:string,
+    gender: string,
     nationality: string,
     address: string
     message: string,
@@ -25,9 +25,15 @@ export type logoutModalAndLoading = {
 
 export type Country = {
     flags: {
-        svg:string,
+        svg: string,
     }
     name: {
         common: string
     },
+}
+
+export type ISurveyByGender = {
+    Men:number,
+    Women:number,
+    Others:number
 }

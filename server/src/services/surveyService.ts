@@ -5,7 +5,7 @@ import ErrorResponse from "../utils/errorResponse";
 export class SurveyService {
     private surveyRepository: SurveyRepository;
     constructor(surveyRepository: SurveyRepository) {
-      this.surveyRepository = surveyRepository;
+        this.surveyRepository = surveyRepository;
     }
 
     async createSurvey(data: Isurvey): Promise<Isurvey> {
@@ -19,5 +19,9 @@ export class SurveyService {
     async getAllSurvey(): Promise<Isurvey[]> {
         let surveys = await this.surveyRepository.findAll()
         return surveys
+    }
+
+    async getSurveyByAge(): Promise<Isurvey[]> {
+        return await this.surveyRepository.surveyByGender()
     }
 }

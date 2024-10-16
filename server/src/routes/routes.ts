@@ -8,6 +8,7 @@ export const routes = Router()
 
 routes.post('/create', surveyController.create.bind(surveyController));
 routes.get('/surveys',verifyToken, surveyController.getAllSurvey.bind(surveyController));
+routes.get('/gender', surveyController.surveyByGender.bind(surveyController));
 routes.post('/login', adminController.login.bind(adminController));
 routes.post('/logout', adminController.logout.bind(adminController));
 

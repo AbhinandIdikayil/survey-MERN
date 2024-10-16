@@ -204,3 +204,30 @@
   }
 }
 
+.skeleton {
+  background-color: #e0e0e0; /* Light grey background */
+  animation: pulse 1.5s infinite; /* Animation effect */
+  border-radius: 4px; /* Rounded corners */
+  margin-bottom: 1px;
+  height: 16px;
+  width: 70.56px;
+  color: transparent;
+}
+.text-hidden {
+  visibility: hidden; /* Hide the text while loading */
+  /* Alternatively, you can use opacity: 0; */
+}
+
+
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

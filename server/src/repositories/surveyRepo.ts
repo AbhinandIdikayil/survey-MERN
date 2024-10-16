@@ -14,4 +14,15 @@ export class SurveyRepository {
         let survey = new surveyModel(data)
         return survey.save()
     }
+    async surveyByGender(): Promise<Isurvey[]> {
+        let surveyByGender = await surveyModel.aggregate([
+            {
+                $group:{
+                    _id:'$gender',
+                    count: {$sum:1}
+                }
+            }
+        ])
+        return surveyByGender as Isurvey[]
+    }
 }
